@@ -1,1 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TMI | 531120 Infrastructure Readiness Grid — sam.gov dot.band</title>
+  <meta name="description" content="sam.gov dot.band — closed-loop federal leasing execution node under NAICS 531120. Trigger → Ports → Spine → Weapon → Wrapper." />
+
+  <style>
+    :root{
+      --bg0:#07080b;
+      --bg1:#0b0d12;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text:#e9ecf3;
+      --muted:#b9c0d4;
+      --line: rgba(255,255,255,.12);
+
+      --red:#ff4d4d;
+      --yellow:#ffd24d;
+      --green:#4dff88;
+
+      --accent:#7aa7ff;
+      --shadow: 0 16px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(122,167,255,.20), transparent 60%),
+        radial-gradient(1000px 600px at 90% 0%, rgba(77,255,136,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    a{color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:26px 18px 60px}
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+      padding:14px 16px;border:1px solid var(--line);background:var(--card);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      position: sticky; top: 10px; z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex;flex-direction:column;gap:2px
+    }
+    .brand .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .brand .title{font-size:16px;font-weight:750}
+    .nav{
+      display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:14px;
+      border:1px solid var(--line); background: rgba(255,255,255,.06);
+      text-decoration:none; font-size:13px; color:var(--text);
+    }
+    .btn:hover{background:rgba(255,255,255,.10)}
+    .btn.primary{border-color: rgba(122,167,255,.45); background: rgba(122,167,255,.14)}
+    .btn.primary:hover{background: rgba(122,167,255,.20)}
+    .btn.small{padding:8px 10px;font-size:12px;border-radius:12px}
+
+    .hero{
+      margin-top:18px;
+      display:grid;grid-template-columns: 1.2fr .8fr;gap:14px;
+    }
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+    }
+    .panel{
+      border:1px solid var(--line); background: var(--card);
+      border-radius: var(--radius); padding:18px;
+      box-shadow: var(--shadow);
+    }
+    h1{margin:0 0 8px;font-size:28px;letter-spacing:-.02em}
+    p{margin:0 0 10px;color:var(--muted);line-height:1.45}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;border:1px solid var(--line);
+      background: rgba(255,255,255,.05); font-size:12px;color:var(--muted)
+    }
+    .dot{width:10px;height:10px;border-radius:50%}
+    .dot.red{background:var(--red)}
+    .dot.yellow{background:var(--yellow)}
+    .dot.green{background:var(--green)}
+    .dot.blue{background:var(--accent)}
+
+    .cards{
+      margin-top:14px;
+      display:grid; grid-template-columns: repeat(5, 1fr); gap:10px;
+    }
+    @media (max-width: 980px){
+      .cards{grid-template-columns:1fr}
+    }
+    .card{
+      border:1px solid var(--line); background: rgba(255,255,255,.05);
+      border-radius: var(--radius); padding:14px;
+      min-height: 132px;
+    }
+    .card h3{margin:0 0 6px;font-size:14px}
+    .card p{margin:0 0 10px;font-size:12.5px}
+    .card .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:12px;color:var(--muted)
+    }
+
+    .section{
+      margin-top:16px;
+      display:grid;grid-template-columns: 1fr; gap:14px;
+    }
+    .section h2{margin:0 0 8px;font-size:18px}
+    .grid2{
+      display:grid;grid-template-columns: 1fr 1fr; gap:14px;
+    }
+    @media (max-width: 980px){
+      .grid2{grid-template-columns:1fr}
+    }
+
+    .window{
+      border:1px solid var(--line); background: rgba(255,255,255,.05);
+      border-radius: var(--radius); overflow:hidden;
+    }
+    .windowbar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px 12px;border-bottom:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+    }
+    .windowbar .left{
+      display:flex;align-items:center;gap:10px;min-width:0;
+    }
+    .windowbar .name{
+      font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .windowbar .meta{font-size:12px;color:var(--muted)}
+    iframe{
+      width:100%;
+      height: 520px;
+      border:0;
+      background: rgba(0,0,0,.20);
+    }
+    .note{
+      margin-top:8px;
+      padding:12px 12px;border-radius: var(--radius);
+      border:1px dashed rgba(255,255,255,.18);
+      color: var(--muted);
+      font-size: 12.5px;
+      background: rgba(255,255,255,.03);
+    }
+    .footer{
+      margin-top:18px;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size:12px;
+    }
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.10)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Sticky Command Bar -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="kicker">sam.gov dot.band • NAICS 531120</div>
+        <div class="title">TMI | 531120 Infrastructure Readiness Grid</div>
+      </div>
+      <div class="nav">
+        <a class="btn" href="#palm">✋ 5 Palm</a>
+        <a class="btn" href="#windows">🪟 Windows</a>
+        <a class="btn primary" href="#share">🔗 Share</a>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="panel">
+        <h1>Closed-loop federal leasing execution node</h1>
+        <p>
+          This page is the <strong>single operating surface</strong> for 531120 Sources Sought execution:
+          <strong>Trigger → Ports → Spine → Weapon → Wrapper</strong>.
+          All actions route through Forms and record into the Master Ledger while the Grid remains view-only for evaluation.
+        </p>
+
+        <div class="pillrow">
+          <div class="pill"><span class="dot red"></span>PAST (Proof)</div>
+          <div class="pill"><span class="dot yellow"></span>PRESENT (Active)</div>
+          <div class="pill"><span class="dot green"></span>FUTURE (Pre-position)</div>
+          <div class="pill"><span class="dot blue"></span>SAM.gov Trigger</div>
+        </div>
+
+        <div class="note">
+          Access control note: you can keep this page public while requiring sign-in on the underlying Google assets (Sheets/Forms/Maps).
+          If a viewer doesn’t have access, Google will prompt them to request access. That’s acceptable for controlled distribution.
+        </div>
+      </div>
+
+      <div class="panel" id="share">
+        <h2 style="margin:0 0 8px;font-size:18px">Fast-share pack (copy/paste)</h2>
+        <p style="margin-bottom:10px">Use these links in emails to Contracting Officers (view-only grid + reference surfaces).</p>
+
+        <div class="pillrow" style="margin:0 0 6px">
+          <a class="btn small primary" target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/1fl780fTtIQpWU2BUlmVaTJAxqRyNUN0IxPznLhAnd2o/edit?usp=sharing">Master Ledger</a>
+          <a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/d/u/2/edit?mid=1tGZdbbO0T0LneUoXbo_uVYw26Hf37b8&usp=sharing">Readiness Grid (Map)</a>
+        </div>
+
+        <div class="pillrow" style="margin:0">
+          <a class="btn small" target="_blank" rel="noopener" href="https://forms.gle/HFbyF4fpCSvVPrJC6">Form A (SS Intake)</a>
+          <a class="btn small" target="_blank" rel="noopener" href="https://forms.gle/hZwLWnw9uuYEHmAP8">Form B (Action Log)</a>
+          <a class="btn small" target="_blank" rel="noopener" href="https://forms.gle/PbEm9qZZLkFKVQc29">Form C (Tasking)</a>
+        </div>
+
+        <div class="note">
+          Recommended email ordering: <strong>Grid → Capability → Ledger reference</strong>. Forms are internal ports; share forms only with internal operators.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 Palm -->
+    <div class="section" id="palm">
+      <div class="panel">
+        <h2>✋ The 5 Palm — sam.gov dot.band doctrine</h2>
+        <p>Each Palm is a fixed function. Only the data flowing through it changes.</p>
+
+        <div class="cards">
+          <div class="card">
+            <div class="tag"><span class="dot blue"></span>PALM 1</div>
+            <h3>SAM.gov = Trigger</h3>
+            <p>SAM.gov signals opportunity. Decisions do not live there; tempo is controlled here.</p>
+            <div class="actions">
+              <a class="btn small" href="#windows">Open windows</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tag"><span class="dot yellow"></span>PALM 2</div>
+            <h3>Forms = Ports</h3>
+            <p>Form A (Intake), Form B (Log), Form C (Tasking). Interchangeable inputs, consistent outputs.</p>
+            <div class="actions">
+              <a class="btn small" target="_blank" rel="noopener" href="https://forms.gle/HFbyF4fpCSvVPrJC6">Form A</a>
+              <a class="btn small" target="_blank" rel="noopener" href="https://forms.gle/hZwLWnw9uuYEHmAP8">Form B</a>
+              <a class="btn small" target="_blank" rel="noopener" href="https://forms.gle/PbEm9qZZLkFKVQc29">Form C</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tag"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green" style="margin-left:-6px"></span>PALM 3</div>
+            <h3>Ledger = Spine</h3>
+            <p>Single source of truth: Past (proof), Present (active), Future (pipeline). Auditable and stable.</p>
+            <div class="actions">
+              <a class="btn small primary" target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/1fl780fTtIQpWU2BUlmVaTJAxqRyNUN0IxPznLhAnd2o/edit?usp=sharing">Open Master Ledger</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tag"><span class="dot green"></span>PALM 4</div>
+            <h3>Grid = Weapon</h3>
+            <p>Not a submission. A decision-field: multiple lease-ready options aligned to delineated areas.</p>
+            <div class="actions">
+              <a class="btn small primary" target="_blank" rel="noopener" href="https://www.google.com/maps/d/u/2/edit?mid=1tGZdbbO0T0LneUoXbo_uVYw26Hf37b8&usp=sharing">Open Grid</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tag"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green" style="margin-left:-6px"></span>PALM 5</div>
+            <h3>dot.band = Wrapper</h3>
+            <p>Compresses the full node into one recognizable unit: links, status, and operating meaning.</p>
+            <div class="actions">
+              <a class="btn small" href="#share">Share pack</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          CO-facing surface: <strong>Grid + capability + limited ledger reference</strong>. Operator-facing surface: <strong>Forms + full ledger</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Windows -->
+    <div class="section" id="windows">
+      <div class="panel">
+        <h2>🪟 Operational Windows</h2>
+        <p>Use these windows for fast review. If embeds fail due to permissions, use the Open button.</p>
+
+        <div class="grid2">
+          <!-- Ledger Window -->
+          <div class="window">
+            <div class="windowbar">
+              <div class="left">
+                <span class="dot yellow"></span>
+                <div>
+                  <div class="name">Master Ledger (Spine)</div>
+                  <div class="meta">SS | Master Status • LOG | Action • TASK | Tasking</div>
+                </div>
+              </div>
+              <div>
+                <a class="btn small primary" target="_blank" rel="noopener"
+                   href="https://docs.google.com/spreadsheets/d/1fl780fTtIQpWU2BUlmVaTJAxqRyNUN0IxPznLhAnd2o/edit?usp=sharing">Open</a>
+              </div>
+            </div>
+            <!-- Embed note: direct embed for edit URLs can be inconsistent; keep a placeholder iframe -->
+            <iframe title="Master Ledger" src="about:blank"></iframe>
+          </div>
+
+          <!-- Map Grid Window -->
+          <div class="window">
+            <div class="windowbar">
+              <div class="left">
+                <span class="dot green"></span>
+                <div>
+                  <div class="name">531120 Readiness Grid (Map)</div>
+                  <div class="meta">View-only evaluation surface</div>
+                </div>
+              </div>
+              <div>
+                <a class="btn small primary" target="_blank" rel="noopener"
+                   href="https://www.google.com/maps/d/u/2/edit?mid=1tGZdbbO0T0LneUoXbo_uVYw26Hf37b8&usp=sharing">Open</a>
+              </div>
+            </div>
+            <iframe title="Readiness Grid" src="about:blank"></iframe>
+          </div>
+        </div>
+
+        <div class="grid2" style="margin-top:14px">
+          <!-- Form A -->
+          <div class="window">
+            <div class="windowbar">
+              <div class="left">
+                <span class="dot yellow"></span>
+                <div>
+                  <div class="name">Form A — Sources Sought Intake (Ports)</div>
+                  <div class="meta">New notice → status ledger</div>
+                </div>
+              </div>
+              <div>
+                <a class="btn small primary" target="_blank" rel="noopener"
+                   href="https://forms.gle/HFbyF4fpCSvVPrJC6">Open</a>
+              </div>
+            </div>
+            <iframe title="Form A" src="https://docs.google.com/forms/d/e/1FAIpQLScm-placeholder/viewform?embedded=true"></iframe>
+          </div>
+
+          <!-- Form B -->
+          <div class="window">
+            <div class="windowbar">
+              <div class="left">
+                <span class="dot red"></span>
+                <div>
+                  <div class="name">Form B — Daily Action Log (Past Proof)</div>
+                  <div class="meta">Email/action → immutable log</div>
+                </div>
+              </div>
+              <div>
+                <a class="btn small primary" target="_blank" rel="noopener"
+                   href="https://forms.gle/hZwLWnw9uuYEHmAP8">Open</a>
+              </div>
+            </div>
+            <iframe title="Form B" src="https://docs.google.com/forms/d/e/1FAIpQLScm-placeholder/viewform?embedded=true"></iframe>
+          </div>
+        </div>
+
+        <div class="grid2" style="margin-top:14px">
+          <!-- Form C -->
+          <div class="window">
+            <div class="windowbar">
+              <div class="left">
+                <span class="dot yellow"></span>
+                <div>
+                  <div class="name">Form C — Verifiable Tasking (Present Control)</div>
+                  <div class="meta">Assign → verify → close</div>
+                </div>
+              </div>
+              <div>
+                <a class="btn small primary" target="_blank" rel="noopener"
+                   href="https://forms.gle/PbEm9qZZLkFKVQc29">Open</a>
+              </div>
+            </div>
+            <iframe title="Form C" src="https://docs.google.com/forms/d/e/1FAIpQLScm-placeholder/viewform?embedded=true"></iframe>
+          </div>
+
+          <!-- CO View Guidance -->
+          <div class="window">
+            <div class="windowbar">
+              <div class="left">
+                <span class="dot blue"></span>
+                <div>
+                  <div class="name">CO View Surface</div>
+                  <div class="meta">What Contracting Officers should see</div>
+                </div>
+              </div>
+              <div>
+                <a class="btn small" href="#share">Copy links</a>
+              </div>
+            </div>
+            <div style="padding:14px">
+              <p style="margin:0 0 10px;color:var(--muted)">
+                CO-facing package should stay clean:
+              </p>
+              <ul style="margin:0 0 10px; padding-left:18px; color:var(--muted); line-height:1.45">
+                <li><strong>Readiness Grid (Map)</strong> — view-only evaluation</li>
+                <li><strong>Statement of Capability</strong> — attached PDF</li>
+                <li><strong>Master Ledger</strong> — optional, limited reference (view-only)</li>
+                <li><strong>Forms</strong> — internal operator ports (do not send to COs by default)</li>
+              </ul>
+              <div class="note" style="margin:0">
+                If you want embeds to work: publish the Sheet as a view-only web page and use the published URL for the iframe.
+                Same for Forms: replace the placeholder iframe URLs with your Form embed URLs (see instructions below).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="note" style="margin-top:14px">
+          <strong>Embed upgrade (recommended):</strong><br/>
+          1) For each Google Form: open it → Send → &lt;&gt; Embed HTML → copy the <code>src</code> URL and replace the placeholder iframes.<br/>
+          2) For the Sheet: File → Share → Publish to web → publish the “Board View” tab → use that published URL in an iframe.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <strong>sam.gov dot.band</strong> — TMI | 531120 Infrastructure Readiness Grid.<br/>
+      Operator flow: <code>Form A → Ledger</code> • <code>Form C → Tasks</code> • <code>Emails scheduled</code> • <code>Form B → Proof</code> • <code>Grid view-only for evaluation</code>.
+    </div>
+
+  </div>
+</body>
+</html>
 
